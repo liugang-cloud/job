@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            width: 100vw;
+            height: 100vh;
+            background-color: rgb(255, 255, 255);
+            margin: 0;
+        }
+        
+        .container {
+            width: 400px;
+            height: 90px;
+            position: relative;
+            top: 300px;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+        
+        .container>input {
+            margin-left: 10px;
+            margin-top: 10px;
+            width: 20px;
+            height: 20px;
+            margin-right: 0;
+            margin-bottom: 0;
+        }
+        
+        .mask {
+            outline: 1px solid black;
+            position: absolute;
+        }
+    </style>
+</head>
+
+<body ondblclick="init()" onmousedown="start(event)" onmousemove="move(event)" onmouseup="end(event)">
+
+    <div class="container">
+        <input class="checkbox" type="checkbox" name="" id="">
+        <input class="checkbox" type="checkbox" name="" id="">
+        <input class="checkbox" type="checkbox" name="" id="">
+        <input class="checkbox" type="checkbox" name="" id="">
+        <input class="checkbox" type="checkbox" name="" id="">
+        <input class="checkbox" type="checkbox" name="" id="">
+        <input class="checkbox" type="checkbox" name="" id="">
+        <input class="checkbox" type="checkbox" name="" id="">
+        <input class="checkbox" type="checkbox" name="" id="">
+        <input class="checkbox" type="checkbox" name="" id="">
+        <input class="checkbox" type="checkbox" name="" id="">
+        <input class="checkbox" type="checkbox" name="" id="">
+        <input class="checkbox" type="checkbox" name="" id="">
+
+
+        <input class="checkbox" type="checkbox" name="" id="">
+        <input class="checkbox" type="checkbox" name="" id="">
+        <input class="checkbox" type="checkbox" name="" id="">
+        <input class="checkbox" type="checkbox" name="" id="">
+        <input class="checkbox" type="checkbox" name="" id="">
+        <input class="checkbox" type="checkbox" name="" id="">
+        <input class="checkbox" type="checkbox" name="" id="">
+        <input class="checkbox" type="checkbox" name="" id="">
+        <input class="checkbox" type="checkbox" name="" id="">
+        <input class="checkbox" type="checkbox" name="" id="">
+        <input class="checkbox" type="checkbox" name="" id="">
+        <input class="checkbox" type="checkbox" name="" id="">
+        <input class="checkbox" type="checkbox" name="" id="">
+
+
+        <input class="checkbox" type="checkbox" name="" id="">
+        <input class="checkbox" type="checkbox" name="" id="">
+        <input class="checkbox" type="checkbox" name="" id="">
+        <input class="checkbox" type="checkbox" name="" id="">
+        <input class="checkbox" type="checkbox" name="" id="">
+        <input class="checkbox" type="checkbox" name="" id="">
+        <input class="checkbox" type="checkbox" name="" id="">
+        <input class="checkbox" type="checkbox" name="" id="">
+        <input class="checkbox" type="checkbox" name="" id="">
+        <input class="checkbox" type="checkbox" name="" id="">
+        <input class="checkbox" type="checkbox" name="" id="">
+        <input class="checkbox" type="checkbox" name="" id="">
+        <input class="checkbox" type="checkbox" name="" id="">
+
+    </div>
+
+
+</body>
+<script>
+    // 居中并获取container的左偏移量
+    let distance = document.documentElement.clientWidth / 2 - 200;
+    document.getElementsByClassName("container")[0].style.left = distance + "px";
+    //创建遮罩元素
+    let div = document.createElement("div");
+    div.classList.add("mask");
+    //定义坐标等变量
+    let i = 0;
+    let start_x;
+    let start_y;
+    let end_x;
+    let end_y;
+    let input_list = document.getElementsByClassName("checkbox")
+
+    //鼠标按下时
+    function start(event) {
+        i = 1
+        start_x = event.clientX;
+        start_y = event.clientY;
+        // console.log(start_x + " " + start_y);
+        document.documentElement.appendChild(div)
+        div.style.left = start_x + "px";
+        div.style.top = start_y + "px";
+
+    }
+    //鼠标移动时
+    function move(event) {
+
+        if (i == 1) {
+            end_x = event.clientX;
+            end_y = event.clientY;
+            //console.log(end_x + " " + end_y);
+            div.style.width = (end_x - start_x) + "px";
+            div.style.height = (end_y - start_y) + "px";
+            for (let i = 0; i < input_list.length; i++) {
+                let input_x = input_list[i].offsetLeft + distance;
+                let input_y = input_list[i].offsetTop + 300;
+                let diff_x = (end_x - start_x) - (input_x - start_x);
+                let diff_y = (end_y - start_y) - (input_y - start_y);
+                if ((input_x - start_x) + 20 > 0 && (input_y - start_y) + 20 > 0 && diff_x > 0 && diff_y > 0) {
+                    input_list[i].checked = true
+                }
+            }
+        }
+
+    }
+    //鼠标弹起时
+    function end(event) {
+        i = 0;
+        start_x = null;
+        start_y = null;
+        end_x = null;
+        end_y = null;
+        div.style = ""
+        document.documentElement.removeChild(div)
+    }
+    //鼠标双击时取消选中
+    function init() {
+        for (let i = 0; i < input_list.length; i++) {
+
+            input_list[i].checked = false
+
+        }
+    }
+</script>
+
+</html>
